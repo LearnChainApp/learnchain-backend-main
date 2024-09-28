@@ -1,7 +1,51 @@
-Por enquanto, planejo fazer as seguintes funções:
+# Instalação
+Primeiro, configure as seguintes variáveis de ambiente:
+- SECRET: Segredo utilizado para a assinatura dos tokens de login.
+- MONGODB_URL: URL para o database mongodb a ser utilizado.
 
-- Cadastro de usuários
-- Cadastro de conteúdo
-- *"Compra"* de conteúdo
+Em seguida, execute os segintes comandos:
+```bash
+git clone https://github.com/nicolasduarterj/LearnChain-backend
+cd LearnChain-backend
+npm install
+```
 
-A compra, por ser na sepolia, não será feita de verdade, nem com os repasses apropriados. Por enquanto.
+# Rotas
+### /api/users
+
+**GET**: Retorna uma array de usuários em JSON.
+
+**POST**:
+- Cadastra um usuário
+- Formato: application/json
+- Estrutura:
+    ```js
+    {
+        uName: username único (string),
+        name: nome (não único) (string),
+        pass: senha (string),
+        walletAddress: endereço da carteira Arbitrum (string)
+    }
+    ```
+- Respostas:
+    - 201: Criado. vem com um json do usuário.
+    - 400: Erro de validação de usuário. Verifique a mensagem de erro anexada.
+
+---
+
+### /api/login
+**POST**:
+- Efetua login.
+- Formato: application/json
+- Estrutura:
+```js
+{
+    uName: username da conta,
+    pass: senha da conta
+}
+```
+- Respostas:
+    - 200. Sucesso. token no body da resposta.
+    - 401. Não autorizado. Usuário ou senha errados.
+
+---
