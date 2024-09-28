@@ -46,7 +46,7 @@ node index.js (roda o programa)
 }
 ```
 - Respostas:
-    - 200. Sucesso. token no body da resposta.
-    - 401. Não autorizado. Usuário ou senha errados.
+    - 200: Sucesso. token no body da resposta.
+    - 401: Não autorizado. Usuário ou senha errados.
 
 ---
