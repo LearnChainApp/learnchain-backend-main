@@ -8,6 +8,7 @@ Em seguida, execute os seguintes comandos:
 git clone https://github.com/nicolasduarterj/LearnChain-backend
 cd LearnChain-backend
 npm install
+node index.js (roda o programa)
 ```
 
 # Rotas
@@ -21,10 +22,10 @@ npm install
 - Estrutura:
     ```JSON
     {
-        "uName": username único (string),
-        "name": nome (não único) (string),
-        "pass": senha (string),
-        "walletAddress": endereço da carteira Arbitrum (string)
+        "uName": "username único (string)",
+        "name": "nome (não único) (string)",
+        "pass": "senha (string)",
+        "walletAddress": "endereço da carteira Arbitrum (string)"
     }
     ```
 - Respostas:
@@ -40,8 +41,8 @@ npm install
 - Estrutura:
 ```JSON
 {
-    "uName": username da conta,
-    "pass": senha da conta
+    "uName": "username da conta",
+    "pass": "senha da conta"
 }
 ```
 - Respostas:
