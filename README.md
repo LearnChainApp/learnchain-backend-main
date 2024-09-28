@@ -8,6 +8,7 @@ Em seguida, execute os seguintes comandos:
 git clone https://github.com/nicolasduarterj/LearnChain-backend
 cd LearnChain-backend
 npm install
+mkdir content
 node index.js (roda o programa)
 ```
 
@@ -50,3 +51,20 @@ node index.js (roda o programa)
     - 401: Não autorizado. Usuário ou senha errados.
 
 ---
+
+### /api/content
+**POST**:
+- Cria um novo curso.
+- Precisa de um token de login Bearer no header de autorização.
+- Formato: multipart/form-data
+- Estrutura:
+```Form-data
+title: título do curso. (string)
+price: preço em ETH do curso. (número)
+description: descrição do curso. (string)
+material: arquivos do curso. (até 12 arquivos).
+```
+- Respostas:
+    - 201: Criado. JSON do curso no body da resposta.
+    - 403: Não autorizado. Usuário não está logado.
+    - 400: Bad request. Nenhum arquivo anexado.
