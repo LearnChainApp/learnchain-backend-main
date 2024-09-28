@@ -21,7 +21,7 @@ const errorHandler = (error, request, response, next) => {
     } else if (error.name === 'ValidationError') {
         return response.status(400).json({ error: error.message })
     } else if (error.name === 'JsonWebTokenError') {
-        return response.status(400).json({ error: 'invalid token' })
+        return response.status(400).json({ error: 'invalid login token' })
     }
 
     next(error)
@@ -43,10 +43,18 @@ const extractUser = async (req, res, next) => {
     next()
 }
 
+const filterLoggedIn = async (req, res, next) => {
+    if (req.user !== undefined)
+        next();
+    else
+        res.status(403).send({error: 'not logged in.'});
+}
+
 module.exports = {
     requestLogger,
     unknownEndpoint,
     errorHandler,
     extractToken,
-    extractUser
+    extractUser,
+    filterLoggedIn
 }
