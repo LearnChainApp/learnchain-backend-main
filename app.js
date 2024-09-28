@@ -10,8 +10,8 @@ mongoose.set('strictQuery', false);
 console.log("Conectando ao MongoDB");
 //Lembre-se de configurar as variáveis de ambiente.
 mongoose.connect(process.env.MONGODB_URL)
-  .then(() => { console.log("Conectado ao MongoDB") })
-  .catch((error) => { console.error('Erro ao conectar ao MongoDB', error) });
+    .then(() => { console.log("Conectado ao MongoDB") })
+    .catch((error) => { console.error('Erro ao conectar ao MongoDB', error) });
 
 app.use(cors());
 app.use(express.json());

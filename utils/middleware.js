@@ -28,19 +28,19 @@ const errorHandler = (error, request, response, next) => {
 }
 
 const extractToken = (req, res, next) => {
-  const authorization = req.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    req.token = authorization.replace('Bearer ', '')
-  }
-  next()
+    const authorization = req.get('authorization')
+    if (authorization && authorization.startsWith('Bearer ')) {
+        req.token = authorization.replace('Bearer ', '')
+    }
+    next()
 }
 
 const extractUser = async (req, res, next) => {
-  if (req.token !== undefined) {
-    const decodedToken = jwt.verify(req.token, process.env.SECRET)
-    req.user = await User.findById(decodedToken.id)
-  }
-  next()
+    if (req.token !== undefined) {
+        const decodedToken = jwt.verify(req.token, process.env.SECRET)
+        req.user = await User.findById(decodedToken.id)
+    }
+    next()
 }
 
 module.exports = {
