@@ -1,9 +1,6 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
+import config from "eslint-config-airbnb";
 
 
 export default [
-  {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},
-  {languageOptions: { globals: globals.node }},
-  pluginJs.configs.recommended,
+  ...[].concat(config),
 ];
