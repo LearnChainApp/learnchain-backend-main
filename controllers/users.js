@@ -4,6 +4,11 @@ const User = require('../models/User');
 
 usersRouter.post('/', async (req, res) => {
     const { uName, name, pass, walletAddress } = req.body;
+    if (!uName || !name || !pass || !walletAddress) {
+        const e = new Error('missing parameters');
+        e.name = 'ValidationError';
+        throw e;
+    }
     const passHash = await bcrypt.hash(pass, 10);
     const user = new User({
         uName,

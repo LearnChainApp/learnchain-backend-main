@@ -3,6 +3,12 @@ const multer = require('multer');
 const middleware = require('../utils/middleware');
 const Course = require('../models/Course');
 
+
+const fileFilter = (req, file, cb) => {
+    const passes = (req.body.title && req.body.description && req.body.price && !isNaN(req.body.price))
+    cb(null, passes)
+}
+
 const storage = multer.diskStorage({
     destination: function(req, res, cb) {
         cb(null, 'content/');
@@ -15,13 +21,14 @@ const storage = multer.diskStorage({
     }
 });
 
-const content = multer({ storage });
+const content = multer({ storage, fileFilter });
 
 contentRouter.post('/', [middleware.filterLoggedIn, content.array('material', 12)], async (req, res) => {
     if (!req.files?.length) {
-        res.status(400).send({ error: 'nenhum arquivo anexado' });
+        res.status(400).send({ error: 'no files attached or invalid parameters' });
         return
     }
+    console.log(req.files.map(file => file.originalname))
     const { title, price, description } = req.body;
     const author = req.user.name;
     const authoruName = req.user.uName;
