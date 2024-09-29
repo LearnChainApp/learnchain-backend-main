@@ -63,6 +63,7 @@ title: título do curso. (string)
 price: preço em ETH do curso. (número)
 description: descrição do curso. (string)
 material: arquivos do curso. (até 12 arquivos).
+Obs. Essa ordem é obrigatória.
 ```
 - Respostas:
     - 201: Criado. JSON do curso no body da resposta.
