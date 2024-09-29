@@ -3,6 +3,8 @@ const multer = require('multer');
 const middleware = require('../utils/middleware');
 const Course = require('../models/Course');
 
+const getFileName = (uName, title, fileOriginalName) => `${uName}-${title}-${fileOriginalName}`;
+
 
 const fileFilter = (req, file, cb) => {
     const passes = (req.body.title && req.body.description && req.body.price && !isNaN(req.body.price))
@@ -14,10 +16,7 @@ const storage = multer.diskStorage({
         cb(null, 'content/');
     },
     filename: function(req, file, cb) {
-        const fileExtension = file.originalname.split('.')[1];
-        const newFileName = `${req.user.uName}-${req.body.title}-${file.originalname.split('.')[0]}`;
-
-        cb(null, `${newFileName}.${fileExtension}`);
+        cb(null, getFileName(req.user.uName, req.body.title, file.originalname));
     }
 });
 
@@ -32,7 +31,7 @@ contentRouter.post('/', [middleware.filterLoggedIn, content.array('material', 12
     const { title, price, description } = req.body;
     const author = req.user.name;
     const authoruName = req.user.uName;
-    const fileNames = req.files.map(file => `${authoruName}-${title}-${file.originalname.split('.')[0]}.${file.originalname.split('.')[1]}`);
+    const fileNames = req.files.map(file => getFileName(authoruName, title, file.originalname))
     const newCourse = new Course({
         title,
         author,
@@ -46,6 +45,11 @@ contentRouter.post('/', [middleware.filterLoggedIn, content.array('material', 12
     const savedCourse = await newCourse.save();
     console.log(savedCourse);
     res.status(201).json(savedCourse);
+})
+
+contentRouter.get('/', async (req, res) => {
+    const courses = Course.find({});
+    res.status(200).json(courses);
 })
 
 module.exports = contentRouter;

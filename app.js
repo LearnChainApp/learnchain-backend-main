@@ -24,7 +24,6 @@ app.use('/api/login', loginRouter);
 
 app.use('/api/content', middleware.extractToken);
 app.use('/api/content', middleware.extractUser);
-app.use('/api/content', middleware.filterLoggedIn);
 app.use('/api/content', contentRouter);
 
 app.use(middleware.unknownEndpoint);
