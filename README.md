@@ -58,7 +58,7 @@ node index.js (roda o programa)
 ```
 
 - Respostas:
-  - 200: Sucesso. token no body da resposta.
+  - 200: Sucesso. token no body da resposta para ser inserido no Bearer do header de autorização.
   - 401: Não autorizado. Usuário ou senha errados.
 
 ---
@@ -91,8 +91,9 @@ Obs. Essa ordem é obrigatória.
 **POST**:
 - Compra um curso, minta um nft do curso e deposita na conta do usuário.
 - Requer um token de login Bearer no header de autorização.
+- O UUID de cada curso pode ser obtido com um GET no /api/content
 - Não precisa de um body.
 - Respostas:
-  - 200: Token mintando e depositado.
+  - 200: Token mintado e depositado.
   - 404: Curso inexistente.
   - 500: erro no mint do nft.
