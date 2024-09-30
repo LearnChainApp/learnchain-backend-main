@@ -7,6 +7,7 @@ const middleware = require('./utils/middleware');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const contentRouter = require('./controllers/content');
+const tokensRouter = require('./controllers/tokens');
 
 mongoose.set('strictQuery', false);
 console.log('Conectando ao MongoDB');
@@ -30,6 +31,10 @@ app.use('/api/login', loginRouter);
 app.use('/api/content', middleware.extractToken);
 app.use('/api/content', middleware.extractUser);
 app.use('/api/content', contentRouter);
+
+app.use('/api/tokens', middleware.extractToken);
+app.use('/api/tokens', middleware.extractUser);
+app.use('/api/tokens', tokensRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

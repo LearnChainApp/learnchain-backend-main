@@ -22,8 +22,11 @@ const errorHandler = (error, request, response, next) => {
         return response.status(400).json({ error: error.message });
     } else if (error.name === 'JsonWebTokenError') {
         return response.status(400).json({ error: 'invalid login token' });
+    } else if (error.name === 'AxiosError') {
+        return response.status(error.response.status).send({ error: 'try verifying your signature' });
     }
 
+    response.status(500).send({ error: 'unknown server error' })
     next(error);
 };
 
