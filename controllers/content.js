@@ -79,18 +79,13 @@ contentRouter.post('/buy/:uuid', middleware.filterLoggedIn, async (req, res) => 
         fileNames: course.fileNames,
         cid: 'n/a',
     };
-    try {
-        const response = await axios.post(
-            `${process.env.ABAKHUS_URL}/mint`,
-            { owner: req.user.walletAddress, data: JSON.stringify(tokendata) },
-            { headers: { 'x-api-key': process.env.ABAKHUS_KEY } },
-        );
-        console.log(response.body);
-        res.status(200).send({ message: 'token minted' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: 'token mint error' });
-    }
+    const response = await axios.post(
+        `${process.env.ABAKHUS_URL}/mint`,
+        { owner: req.user.walletAddress, data: JSON.stringify(tokendata) },
+        { headers: { 'x-api-key': process.env.ABAKHUS_KEY } },
+    );
+    console.log(response.body);
+    res.status(200).send({ message: 'token minted' });
 });
 
 module.exports = contentRouter;
