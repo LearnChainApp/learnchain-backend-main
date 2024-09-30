@@ -25,6 +25,18 @@ const storage = multer.diskStorage({
 const content = multer({ storage, fileFilter });
 
 //----------------[ROTAS]--------------------------------------------------------------------//
+contentRouter.get('/', async (req, res) => {
+    const courses = await Course.find({});
+    res.status(200).json(courses);
+});
+
+contentRouter.get('/:uuid', async (req, res) => {
+    const desiredCourse = await Course.findOne({ uuid: req.params.uuid });
+    if (desiredCourse === null || desiredCourse === undefined)
+        return res.status(404).send({ error: 'course not found' });
+    res.status(200).json(desiredCourse);
+});
+
 contentRouter.post('/', [middleware.filterLoggedIn, content.array('material', 12)], async (req, res) => {
     //Testa se a array files está vazia ou não existe
     if (!req.files?.length) {
@@ -51,11 +63,6 @@ contentRouter.post('/', [middleware.filterLoggedIn, content.array('material', 12
     const savedCourse = await newCourse.save();
     console.log(savedCourse);
     res.status(201).json(savedCourse);
-});
-
-contentRouter.get('/', async (req, res) => {
-    const courses = await Course.find({});
-    res.status(200).json(courses);
 });
 
 contentRouter.post('/buy/:uuid', middleware.filterLoggedIn, async (req, res) => {
