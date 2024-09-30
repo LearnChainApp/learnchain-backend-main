@@ -4,6 +4,8 @@ Primeiro, configure as seguintes variáveis de ambiente:
 
 - SECRET: Segredo utilizado para a assinatura dos tokens de login.
 - MONGODB_URL: Link para o banco de dados mongodb a ser utilizado.
+- ABAKHUS_URL: URL da api do abakhus.
+- ABAKHUS_KEY: Key da api do abakhus.
 
 Em seguida, execute os seguintes comandos:
 
@@ -63,6 +65,8 @@ node index.js (roda o programa)
 
 ### /api/content
 
+**GET**: Retorna todos os cursos
+
 **POST**:
 
 - Cria um novo curso.
@@ -82,3 +86,13 @@ Obs. Essa ordem é obrigatória.
   - 201: Criado. JSON do curso no body da resposta.
   - 403: Não autorizado. Usuário não está logado.
   - 400: Bad request. Nenhum arquivo anexado.
+
+### /api/content/buy/\[uuid do curso\]
+**POST**:
+- Compra um curso, minta um nft do curso e deposita na conta do usuário.
+- Requer um token de login Bearer no header de autorização.
+- Não precisa de um body.
+- Respostas:
+  - 200: Token mintando e depositado.
+  - 404: Curso inexistente.
+  - 500: erro no mint do nft.

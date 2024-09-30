@@ -16,6 +16,7 @@ loginRouter.post('/', async (req, res) => {
         uName: user.uName,
         id: user.id,
         walletAddress: user.walletAddress,
+        uuid: user.uuid,
     };
     const token = jwt.sign(userForToken, process.env.SECRET);
 
@@ -24,6 +25,7 @@ loginRouter.post('/', async (req, res) => {
         uName: user.uName,
         name: user.name,
         walletAddress: user.walletAddress,
+        uuid: user.uuid,
     });
 });
 

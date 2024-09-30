@@ -2,6 +2,7 @@ const contentRouter = require('express').Router();
 const multer = require('multer');
 const middleware = require('../utils/middleware');
 const Course = require('../models/Course');
+const axios = require('axios');
 
 //---------------------[SETUP DO MULTER]------------------------------------------------------//
 const getFileName = (uName, courseTitle, fileOriginalName) => `${uName}-${courseTitle}-${fileOriginalName}`;
@@ -53,8 +54,36 @@ contentRouter.post('/', [middleware.filterLoggedIn, content.array('material', 12
 });
 
 contentRouter.get('/', async (req, res) => {
-    const courses = Course.find({});
+    const courses = await Course.find({});
     res.status(200).json(courses);
+});
+
+contentRouter.post('/buy/:uuid', middleware.filterLoggedIn, async (req, res) => {
+    const course = await Course.findOne({ uuid: req.params.uuid });
+    if (course === null || course === undefined) {
+        res.status(404).send({ error: 'course not found' });
+        return;
+    }
+    const tokendata = {
+        platform: 'LearnChain',
+        owneruuid: req.user.uuid,
+        courseTitle: course.title,
+        courseUUID: course.uuid,
+        fileNames: course.fileNames,
+        cid: 'n/a',
+    };
+    try {
+        const response = await axios.post(
+            `${process.env.ABAKHUS_URL}/mint`,
+            { owner: req.user.walletAddress, data: JSON.stringify(tokendata) },
+            { headers: { 'x-api-key': process.env.ABAKHUS_KEY } },
+        );
+        console.log(response.body);
+        res.status(200).send({ message: 'token minted' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'token mint error' });
+    }
 });
 
 module.exports = contentRouter;

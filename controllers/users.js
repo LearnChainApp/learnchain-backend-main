@@ -15,6 +15,7 @@ usersRouter.post('/', async (req, res) => {
         name,
         passHash,
         walletAddress,
+        uuid: crypto.randomUUID(),
     });
 
     const savedUser = await user.save();
