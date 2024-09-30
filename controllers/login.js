@@ -6,7 +6,7 @@ const loginRouter = require('express').Router();
 loginRouter.post('/', async (req, res) => {
     const { uName, pass } = req.body;
     if (!uName || !pass) {
-        return res.status(401).send({error: 'missing parameters'})
+        return res.status(401).send({ error: 'missing parameters' });
     }
     const user = await User.findOne({ uName });
     const passCorrect = user == null ? false : await bcrypt.compare(pass, user.passHash);
