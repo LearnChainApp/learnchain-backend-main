@@ -59,7 +59,7 @@ node index.js (roda o programa)
 ```
 
 - Respostas:
-  - 200: Sucesso. token de login no body da resposta. O insira como Bearer no header de autorização.
+  - 200: Sucesso. token de login no body da resposta. Insira-o como Bearer no header de autorização. (Mais informações: https://swagger.io/docs/specification/v3_0/authentication/bearer-authentication/)
   - 401: Não autorizado. Usuário ou senha errados.
 
 ---
@@ -73,7 +73,7 @@ node index.js (roda o programa)
 - Cria um novo curso.
 - Precisa de um token de login Bearer no header de autorização.
 - Formato do body: multipart/form-data.
-- Estrutura (essa ordem é obrigatória):
+- Estrutura (a ordem é obrigatória):
 
 | key         | value                                |
 |-------------|--------------------------------------|
