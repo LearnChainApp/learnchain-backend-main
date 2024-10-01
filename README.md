@@ -95,12 +95,12 @@ node index.js (roda o programa)
 **POST**:
 - Compra um curso, minta um nft da compra e deposita na conta do usuário.
 - Requer um token de login Bearer no header de autorização.
-- OBS: O UUID de cada curso pode ser obtido com um GET no /api/content.
 - Não precisa de um body.
 - Respostas:
   - 200: Token mintado e depositado.
   - 404: Curso inexistente.
   - 500: erro no mint do nft.
+- OBS: O UUID de cada curso pode ser obtido com um GET no /api/content.
 
 ---
 
@@ -112,10 +112,10 @@ node index.js (roda o programa)
 - Estrutura:
 ```JSON
 {
-  "signature": "Texto base assinado com a chave pública da carteira"
+  "signature": "String base assinado com a chave pública da carteira"
 }
 ```
-- Texto base: "Please sign this message to verify your ownership"
+- String base: "Please sign this message to verify your ownership"
 - OBS: verifique o frontend-dapp da Hacker House para entender como fazer isso.
 - Respostas:
   - 200: OK. JSON dos tokens no body da resposta.
