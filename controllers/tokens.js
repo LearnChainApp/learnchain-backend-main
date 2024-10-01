@@ -8,7 +8,6 @@ tokensRouter.get('/', middleware.filterLoggedIn, async (req, res) => {
         params: { owner: req.user.walletAddress, signature: req.body.signature },
         headers: { 'x-api-key': process.env.ABAKHUS_KEY },
     });
-    console.log(allTokensRequest.data);
     const tokenIDPromiseArray = allTokensRequest.data.ret.map((token) =>
         axios.get(`${process.env.ABAKHUS_URL}/getMetadataByTokenId`, {
             params: { owner: req.user.walletAddress, tokenId: token },
@@ -17,7 +16,7 @@ tokensRouter.get('/', middleware.filterLoggedIn, async (req, res) => {
     );
     const allTokensMetadataRequest = await Promise.all(tokenIDPromiseArray);
     const allTokensMetadata = allTokensMetadataRequest.map((response) => response.data.metadata);
-    res.status(200).json(allTokensMetadata);
+    res.status(200).json(allTokensMetadata.filter(md => md.platform === 'LearnChain'));
 });
 
 module.exports = tokensRouter;
