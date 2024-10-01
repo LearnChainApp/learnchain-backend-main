@@ -48,7 +48,7 @@ const extractUser = async (req, res, next) => {
 
 const filterLoggedIn = async (req, res, next) => {
     if (req.user !== undefined) next();
-    else res.status(403).send({ error: 'not logged in.' });
+    else res.status(401).send({ error: 'not logged in.' });
 };
 
 module.exports = {

@@ -2,7 +2,7 @@ const tokensRouter = require('express').Router();
 const axios = require('axios');
 const middleware = require('../utils/middleware');
 
-tokensRouter.get('/', middleware.filterLoggedIn, async (req, res) => {
+tokensRouter.post('/', middleware.filterLoggedIn, async (req, res) => {
     if (!req.body.signature) return res.status(400).send({ error: 'missing signature.' });
     const allTokensRequest = await axios.get(`${process.env.ABAKHUS_URL}/getTokensByOwner`, {
         params: { owner: req.user.walletAddress, signature: req.body.signature },
