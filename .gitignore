@@ -1,3 +1,5 @@
 shell.nix
+.dockerignore
 node_modules/
 content/
+Dockerfile
