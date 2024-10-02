@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const usersRouter = require('express').Router();
 const User = require('../models/User');
+const middleware = require('../utils/middleware');
 
 usersRouter.post('/', async (req, res) => {
     const { uName, name, pass, walletAddress } = req.body;
@@ -27,5 +28,14 @@ usersRouter.get('/', async (req, res) => {
     const users = await User.find({});
     res.json(users);
 });
+
+usersRouter.delete(
+    '/',
+    [middleware.extractToken, middleware.extractUser, middleware.filterLoggedIn],
+    async (req, res) => {
+        await User.deleteOne({ uuid: req.user.uuid });
+        res.status(204).end();
+    },
+);
 
 module.exports = usersRouter;
