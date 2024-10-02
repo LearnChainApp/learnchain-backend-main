@@ -26,7 +26,7 @@ const errorHandler = (error, request, response, next) => {
         return response.status(error.response.status).send({ error: 'try verifying your signature' });
     }
 
-    response.status(500).send({ error: 'unknown server error' })
+    response.status(500).send({ error: 'unknown server error' });
     next(error);
 };
 
