@@ -9,8 +9,8 @@ const fs = require('node:fs');
 //---------------------[SETUP DO MULTER]------------------------------------------------------//
 /*
 OBS: Arquivos são armazenados localmente com nomes únicos, a priori, 
-(apesar de serem posteriormente upados no IPFS)
 para evitar sobreposições e race conditions
+(apesar de serem posteriormente upados no IPFS)
 */
 const getFileName = (uName, courseTitle, fileOriginalName) => `${uName}-${courseTitle}-${fileOriginalName}`;
 
