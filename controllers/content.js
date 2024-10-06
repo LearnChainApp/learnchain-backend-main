@@ -107,7 +107,6 @@ contentRouter.post(
             cids,
             uuid: crypto.randomUUID(),
         });
-
         const savedCourse = await newCourse.save();
         console.log(savedCourse);
         res.status(201).json(savedCourse);
