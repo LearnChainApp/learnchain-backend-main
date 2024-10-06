@@ -69,7 +69,7 @@ contentRouter.post(
     '/',
     [middleware.filterLoggedIn, middleware.multerFileFilterSetup, content.array('material', 12)],
     async (req, res) => {
-        //Testa se a array files está vazia ou não existe
+        //Testa se a array files está vazia, não existe, ou se nem todos os arquivos passaram pelo filtro
         if (!req.files?.length || !req.allFilesPass) {
             return res.status(400).send({
                 error: 'no files attached, invalid files, or invalid parameters',
@@ -112,17 +112,13 @@ contentRouter.post(
 
 contentRouter.post('/buy/:uuid', middleware.filterLoggedIn, async (req, res) => {
     const course = await Course.findOne({ uuid: req.params.uuid });
-    if (course === null || course === undefined) {
-        res.status(404).send({ error: 'course not found' });
-        return;
-    }
+    if (course === null || course === undefined) return res.status(404).send({ error: 'course not found' });
     const tokendata = {
         platform: 'LearnChain',
         owneruuid: req.user.uuid,
         courseTitle: course.title,
         courseUUID: course.uuid,
-        fileNames: course.fileNames,
-        cid: 'n/a',
+        cids: course.cids,
     };
     const response = await axios.post(
         `${process.env.ABAKHUS_URL}/mint`,
