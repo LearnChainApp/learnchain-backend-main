@@ -86,15 +86,8 @@ contentRouter.post(
         const authoruName = req.user.uName;
 
         const fileNames = req.files.map((file) => getFileName(authoruName, title, file.originalname));
-        const fileStreamObjects = fileNames.map((fileName) => {
-            return {
-                stream: fs.createReadStream(`${process.env.FILE_DEST}${fileName}`),
-                fileName: fileName,
-            };
-        });
-        const uploadPromiseArray = fileStreamObjects.map((streamObj) =>
-            pinata.upload.stream(streamObj.stream, { name: streamObj.fileName }),
-        );
+        const fileStreams = fileNames.map((fileName) => fs.createReadStream(`${process.env.FILE_DEST}${fileName}`));
+        const uploadPromiseArray = fileStreams.map((stream) => pinata.upload.stream(stream));
         const fileUploadResults = await Promise.all(uploadPromiseArray);
         const cids = fileUploadResults.map((resultObject) => resultObject.IpfsHash);
 
