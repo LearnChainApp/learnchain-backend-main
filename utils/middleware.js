@@ -51,6 +51,11 @@ const filterLoggedIn = async (req, res, next) => {
     else res.status(401).send({ error: 'not logged in.' });
 };
 
+const multerFileFilterSetup = async (req, res, next) => {
+    req.allFilesPass = true; //Preparação do monoide para a verificação
+    next();
+}
+
 module.exports = {
     requestLogger,
     unknownEndpoint,
@@ -58,4 +63,5 @@ module.exports = {
     extractToken,
     extractUser,
     filterLoggedIn,
+    multerFileFilterSetup
 };

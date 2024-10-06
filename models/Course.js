@@ -6,7 +6,7 @@ const courseSchema = mongoose.Schema({
     authoruName: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
-    fileNames: [{ type: String }],
+    cids: [{ type: String }],
     uuid: { type: String, required: true },
 });
 
