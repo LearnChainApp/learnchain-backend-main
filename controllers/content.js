@@ -114,8 +114,6 @@ contentRouter.post('/buy/:uuid', middleware.filterLoggedIn, async (req, res) => 
     if (course === null || course === undefined) return res.status(404).send({ error: 'course not found' });
     const tokendata = {
         platform: 'LearnChain',
-        owneruuid: req.user.uuid,
-        courseTitle: course.title,
         courseUUID: course.uuid,
         cids: course.cids,
     };
