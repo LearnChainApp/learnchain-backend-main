@@ -7,6 +7,8 @@ Primeiro, configure as seguintes variáveis de ambiente:
 - ABAKHUS_URL: URL da api do abakhus.
 - ABAKHUS_KEY: Key da api do abakhus.
 - FILE_DEST: Caminho onde os arquivos serão armazenados
+- PINATA_JWT: JWT para login na Pinata API
+- PINATA_GATEWAY_URL: URL para o Gateway da Pinata API
 
 Em seguida, execute os seguintes comandos:
 
@@ -82,6 +84,7 @@ node index.js (roda o programa)
 | description | descrição do curso (string)          |
 | material    | arquivos do curso (até 12 arquivos) |
 
+OBS: o sistema só aceita arquivos .mp4 e .pdf
 
 - Respostas:
   - 201: Criado. JSON do curso no body da resposta.
