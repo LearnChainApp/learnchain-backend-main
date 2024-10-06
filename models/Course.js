@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+//TODO: Adicionar verificação para impedir cursos repetidos
 const courseSchema = mongoose.Schema({
     title: { type: String, required: true },
     author: { type: String, required: true },
