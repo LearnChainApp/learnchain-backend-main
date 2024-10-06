@@ -54,7 +54,7 @@ const filterLoggedIn = async (req, res, next) => {
 const multerFileFilterSetup = async (req, res, next) => {
     req.allFilesPass = true; //Preparação do monoide para a verificação
     next();
-}
+};
 
 module.exports = {
     requestLogger,
@@ -63,5 +63,5 @@ module.exports = {
     extractToken,
     extractUser,
     filterLoggedIn,
-    multerFileFilterSetup
+    multerFileFilterSetup,
 };

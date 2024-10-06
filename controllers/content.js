@@ -4,31 +4,33 @@ const middleware = require('../utils/middleware');
 const Course = require('../models/Course');
 const axios = require('axios');
 const { PinataSDK } = require('pinata-web3');
-const fs = require('node:fs')
+const fs = require('node:fs');
 
 //---------------------[SETUP DO MULTER]------------------------------------------------------//
 const getFileName = (uName, courseTitle, fileOriginalName) => `${uName}-${courseTitle}-${fileOriginalName}`;
 
-const fileType = (fileOriginalName) => { //Essa função não *precisa* ser assim, mas estou mantendo por possível utilidade futura.
-    const extension = fileOriginalName.split(".").at(-1);
-    switch(extension) {
+const fileType = (fileOriginalName) => {
+    //Essa função não *precisa* ser assim, mas estou mantendo por possível utilidade futura.
+    const extension = fileOriginalName.split('.').at(-1);
+    switch (extension) {
         case 'pdf':
-            return 'application/pdf'
+            return 'application/pdf';
         case 'mp4':
-            return 'application/mp4'
+            return 'application/mp4';
         default:
-            return 'invalid' 
+            return 'invalid';
     }
-}
+};
 
 // Verificação tem que ser feita aqui para evitar baixar arquivos provenientes de forms inválidos.
 const fileFilter = (req, file, cb) => {
-    const passes = req.body.title &&
-        req.body.description && 
-        req.body.price && 
+    const passes =
+        req.body.title &&
+        req.body.description &&
+        req.body.price &&
         !isNaN(req.body.price) &&
         fileType(file.originalname) !== 'invalid';
-    req.allFilesPass = req.allFilesPass && passes;    
+    req.allFilesPass = req.allFilesPass && passes;
     cb(null, passes);
 };
 
@@ -47,7 +49,7 @@ const content = multer({ storage, fileFilter });
 
 const pinata = new PinataSDK({
     pinataJwt: process.env.PINATA_JWT,
-    pinataGateway: process.env.PINATA_GATEWAY_URL
+    pinataGateway: process.env.PINATA_GATEWAY_URL,
 });
 
 //----------------[ROTAS]--------------------------------------------------------------------//
@@ -64,8 +66,8 @@ contentRouter.get('/:uuid', async (req, res) => {
 });
 
 contentRouter.post(
-    '/', 
-    [middleware.filterLoggedIn, middleware.multerFileFilterSetup, content.array('material', 12)], 
+    '/',
+    [middleware.filterLoggedIn, middleware.multerFileFilterSetup, content.array('material', 12)],
     async (req, res) => {
         //Testa se a array files está vazia ou não existe
         if (!req.files?.length || !req.allFilesPass) {
@@ -80,14 +82,13 @@ contentRouter.post(
 
         const fileNames = req.files.map((file) => getFileName(authoruName, title, file.originalname));
         const fileStreamObjects = fileNames.map((fileName) => {
-            return { 
+            return {
                 stream: fs.createReadStream(`${process.env.FILE_DEST}${fileName}`),
-                fileName: fileName
-            }
-        }
-        );
-        const uploadPromiseArray = fileStreamObjects.map((streamObj) => 
-            pinata.upload.stream(streamObj.stream, { name: streamObj.fileName })
+                fileName: fileName,
+            };
+        });
+        const uploadPromiseArray = fileStreamObjects.map((streamObj) =>
+            pinata.upload.stream(streamObj.stream, { name: streamObj.fileName }),
         );
         const fileUploadResults = await Promise.all(uploadPromiseArray);
         const cids = fileUploadResults.map((resultObject) => resultObject.IpfsHash);
@@ -106,7 +107,7 @@ contentRouter.post(
         const savedCourse = await newCourse.save();
         console.log(savedCourse);
         res.status(201).json(savedCourse);
-    }
+    },
 );
 
 contentRouter.post('/buy/:uuid', middleware.filterLoggedIn, async (req, res) => {
