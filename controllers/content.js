@@ -75,7 +75,7 @@ contentRouter.post(
                 error: 'no files attached, invalid files, or invalid parameters',
             });
         }
-        console.log(req.files.map((file) => file.originalname));
+
         const { title, price, description } = req.body;
         const author = req.user.name;
         const authoruName = req.user.uName;
@@ -92,7 +92,6 @@ contentRouter.post(
         );
         const fileUploadResults = await Promise.all(uploadPromiseArray);
         const cids = fileUploadResults.map((resultObject) => resultObject.IpfsHash);
-        console.log(fileUploadResults, cids);
 
         const newCourse = new Course({
             title,
