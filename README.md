@@ -142,7 +142,16 @@ OBS: o sistema só aceita arquivos .mp4 e .pdf
 - String base: "Please sign this message to verify your ownership"
 - OBS: verifique o frontend-dapp da Hacker House para entender como fazer isso.
 - Respostas:
-  - 200: OK. JSON dos tokens no body da resposta.
+  - 200: OK. JSON dos cursos no body da resposta.
   - 400: Falta de assinatura.
   - 422: Assinatura inválida (?) (não tenho certeza).
 - OBS2: isso é um POST (e não um GET) para evitar alguns problemas relacionados ao body do request.
+
+### /api/library/my-courses/\[tokenId\]
+**GET**:
+- Retorna os links para download do material do curso associado àquele tokenId
+- o tokenId de cada curso pode ser obtido com a rota acima.
+- Requer um token de Login Bearer no header de autorização
+- Respostas:
+  - 200: Ok. Lista de linksno body da resposta.
+  - 400: Curso não encontrado ou sem material.
