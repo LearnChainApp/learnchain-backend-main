@@ -7,7 +7,9 @@ libraryRouter.post('/my-courses/', async (req, res) => {
     const learnChainTokens = await tokenUtils.getUserLearnChainTokens(req.body.signature, req.user.walletAddress);
     const availableCoursesPromiseArray = learnChainTokens.map((token) => Course.findOne({ uuid: token.courseUUID }));
     const availableCoursesBrute = await Promise.all(availableCoursesPromiseArray);
-    const availableCourses = availableCoursesBrute.filter((course) => course !== null && course !== undefined);
+    const availableCoursesBruteWithIds = availableCoursesBrute.map((course, index) => 
+        ({ ...(course.toJSON()), tokenId: learnChainTokens[index].tokenId}));
+    const availableCourses = availableCoursesBruteWithIds.filter((course) => course !== null && course !== undefined);
     res.status(200).json(availableCourses);
 });
 

@@ -14,7 +14,7 @@ const getUserLearnChainTokens = async (signature, userWalletAddress) => {
     );
     const allTokenMetadataResponse = await Promise.all(tokenMetadataPromiseArray);
     const learnChainTokensMetadata = allTokenMetadataResponse
-        .map((response) => response.data.metadata)
+        .map((response, index) => ({ ...response.data.metadata, tokenId: allTokenIDs[index] }))
         .filter((metadata) => metadata.platform === 'LearnChain');
     return learnChainTokensMetadata;
 };
