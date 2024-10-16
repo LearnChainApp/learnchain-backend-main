@@ -8,10 +8,11 @@ const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const contentRouter = require('./controllers/content');
 const tokensRouter = require('./controllers/tokens');
+const miscRouter = require('./controllers/misc');
+const libraryRouter = require('./controllers/library');
 
 mongoose.set('strictQuery', false);
-console.log('Conectando ao MongoDB');
-//Lembre-se de configurar as variáveis de ambiente.
+console.log('Conectando ao MongoDB...');
 mongoose
     .connect(process.env.MONGODB_URL)
     .then(() => {
@@ -35,6 +36,13 @@ app.use('/api/content', contentRouter);
 app.use('/api/tokens', middleware.extractToken);
 app.use('/api/tokens', middleware.extractUser);
 app.use('/api/tokens', tokensRouter);
+
+app.use('/api/misc', miscRouter);
+
+app.use('/api/library', middleware.extractToken);
+app.use('/api/library', middleware.extractUser);
+app.use('/api/library', middleware.filterLoggedIn);
+app.use('/api/library', libraryRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

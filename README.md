@@ -7,6 +7,8 @@ Primeiro, configure as seguintes variáveis de ambiente:
 - ABAKHUS_URL: URL da api do abakhus.
 - ABAKHUS_KEY: Key da api do abakhus.
 - FILE_DEST: Caminho onde os arquivos serão armazenados
+- PINATA_JWT: JWT para login na Pinata API
+- PINATA_GATEWAY_URL: URL para o Gateway da Pinata API
 
 Em seguida, execute os seguintes comandos:
 
@@ -82,6 +84,7 @@ node index.js (roda o programa)
 | description | descrição do curso (string)          |
 | material    | arquivos do curso (até 12 arquivos) |
 
+OBS: o sistema só aceita arquivos .mp4 e .pdf
 
 - Respostas:
   - 201: Criado. JSON do curso no body da resposta.
@@ -122,3 +125,33 @@ node index.js (roda o programa)
   - 400: Falta de assinatura.
   - 422: Assinatura inválida (?) (não tenho certeza).
 - OBS2: isso é um POST (e não um GET) para evitar alguns problemas relacionados ao body do request.
+
+---
+
+### /api/library/my-courses
+**POST**:
+- Retorna os cursos comprados do usuário logado
+- Requer um token de Login Bearer no header de autorização
+- Formato do body: application/json
+- Estrutura:
+```JSON
+{
+  "signature": "String base assinado com a chave pública da carteira"
+}
+```
+- String base: "Please sign this message to verify your ownership"
+- OBS: verifique o frontend-dapp da Hacker House para entender como fazer isso.
+- Respostas:
+  - 200: OK. JSON dos cursos no body da resposta.
+  - 400: Falta de assinatura.
+  - 422: Assinatura inválida (?) (não tenho certeza).
+- OBS2: isso é um POST (e não um GET) para evitar alguns problemas relacionados ao body do request.
+
+### /api/library/my-courses/\[tokenId\]
+**GET**:
+- Retorna os links para download do material do curso associado àquele tokenId
+- o tokenId de cada curso pode ser obtido com a rota acima.
+- Requer um token de Login Bearer no header de autorização
+- Respostas:
+  - 200: Ok. Lista de linksno body da resposta.
+  - 400: Curso não encontrado ou sem material.
